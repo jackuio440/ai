@@ -1,6 +1,7 @@
 from random import random, randint, choice
 from solution import Solution
 import numpy as np
+import random
 
 courses = [
 {'teacher': '甲', 'name':'機率', 'hours': 2},
@@ -58,9 +59,8 @@ T2=[
     3,4,3,5,5
 ]
 
-
-
 def schedule_courses(courses, slots):
+    random.shuffle(courses)
     schedule = {time: None for time in slots}
     slots_with_one = [time for time in slots if time[-1] == '1']
 
@@ -68,13 +68,16 @@ def schedule_courses(courses, slots):
         teacher = course['teacher']
         name = course['name']
         if course['hours'] == 4:
+            random.shuffle(slots_with_one)  
             for time in slots_with_one:
                 if schedule[time] is None:
                     schedule[time] = {'teacher': teacher, 'course': name}
                     break
             else:
                 print(f"Cannot schedule {name} with teacher {teacher} in any slot with '1'.")
+
         else:
+            random.shuffle(slots)  
             for time in slots:
                 if schedule[time] is None:
                     schedule[time] = {'teacher': teacher, 'course': name}
@@ -88,7 +91,4 @@ schedule = schedule_courses(courses, slots2)
 
 for time, info in schedule.items():
     print(f"{time}: {info['course']} with {info['teacher'] if info else 'No class'}")
-
-
-
 
